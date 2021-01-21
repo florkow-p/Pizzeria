@@ -1,0 +1,27 @@
+server:
+  port: 8081
+spring:
+  flyway:
+    url: jdbc:postgresql://localhost:5432/pizzeria-meal
+    user: postgres
+    password: postgres
+    baseline-on-migrate: true
+    baseline-version: 0
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pizzeria-meal
+    name: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    initialization-mode: ALWAYS
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
