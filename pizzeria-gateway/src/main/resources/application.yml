@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: pizzeria-gateway
+server:
+  port: 20000
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+ribbon:
+  eager-load:
+    enabled: true
+zuul:
+  prefix: /api
+  routes:
+    pizzeria-meal:
+      path: /meal/**
+      serviceId: pizzeria-meal
+    pizzeria-order:
+      path: /order/**
+      serviceId: pizzeria-order
+    pizzeria-mail:
+      path: /mail/**
+      serviceId: pizzeria-mail
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - routes

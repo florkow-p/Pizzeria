@@ -13,7 +13,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/orders/history")
+@RequestMapping("/v1/orders/history")
 public class OrderController {
 
     private final OrderServiceImpl orderService;

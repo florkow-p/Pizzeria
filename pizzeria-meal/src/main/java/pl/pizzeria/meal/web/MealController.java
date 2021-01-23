@@ -1,7 +1,5 @@
 package pl.pizzeria.meal.web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +14,7 @@ import pl.pizzeria.order.domain.OrderRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/menu")
+@RequestMapping("/v1/menu")
 @RequiredArgsConstructor
 public class MealController {
 
@@ -26,7 +24,6 @@ public class MealController {
     private final MealServiceImpl mealService;
     private final OrderServiceImpl orderService;
     private final RabbitTemplate rabbitTemplate;
-    private final ObjectMapper objectMapper;
 
     @GetMapping("")
     public ResponseEntity<List<Meal>> getMenu() {
@@ -40,7 +37,7 @@ public class MealController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<Order> postOrder(@RequestBody OrderRequest orderRequest) throws JsonProcessingException {
+    public ResponseEntity<Order> postOrder(@RequestBody OrderRequest orderRequest) {
         Order order = orderService.prepareOrder(orderRequest);
 
         rabbitTemplate.convertAndSend(saveOrderQueue, order);
