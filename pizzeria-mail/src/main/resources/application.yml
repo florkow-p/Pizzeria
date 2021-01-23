@@ -1,0 +1,16 @@
+spring:
+  mail:
+    host: smtp.server
+    username: from@mail.com
+    password: password
+    port: 587
+    properties:
+      mail.smtp:
+        auth: true
+        starttls.enable: true
+        ssl.enable: false
+mail:
+  to: to@mail.com
+  from: from@mail.com
+rabbit:
+  send-mail-queue: send-mail-queue
