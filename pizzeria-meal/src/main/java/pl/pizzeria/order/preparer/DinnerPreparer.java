@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.pizzeria.meal.domain.Meal;
 import pl.pizzeria.meal.domain.MealDto;
-import pl.pizzeria.meal.domain.dinner.BaseIngredient;
-import pl.pizzeria.meal.domain.dinner.Dinner;
-import pl.pizzeria.meal.domain.dinner.DinnerDto;
-import pl.pizzeria.meal.domain.dinner.Extras;
+import pl.pizzeria.meal.domain.dinner.*;
+import pl.pizzeria.meal.domain.mapper.BaseIngredientMapper;
 import pl.pizzeria.meal.domain.mapper.DinnerMapper;
+import pl.pizzeria.meal.domain.mapper.ExtrasMapper;
 import pl.pizzeria.meal.web.MealServiceImpl;
 import pl.pizzeria.order.domain.MealRequest;
 
@@ -50,13 +49,18 @@ public class DinnerPreparer implements MealPreparer {
         Meal ingredient = mealService.findById(mealRequest.getBaseIngredientId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid base ingredient id"));
 
-        ((DinnerDto) mealDto).setBaseIngredient((BaseIngredient) ingredient);
+        BaseIngredientDto ingredientDto =
+                BaseIngredientMapper.INSTANCE.baseIngredientToBaseIngredientDto((BaseIngredient) ingredient);
+
+        ((DinnerDto) mealDto).setBaseIngredient(ingredientDto);
     }
 
     private void addExtras(MealDto mealDto, MealRequest mealRequest) {
         Meal extras = mealService.findById(mealRequest.getExtrasId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid extras id"));
 
-        ((DinnerDto) mealDto).setExtras((Extras) extras);
+        ExtrasDto extrasDto = ExtrasMapper.INSTANCE.extrasToExtrasDto((Extras) extras);
+
+        ((DinnerDto) mealDto).setExtras(extrasDto);
     }
 }

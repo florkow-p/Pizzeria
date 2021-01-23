@@ -12,12 +12,14 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class Topping extends Meal {
+public class Topping extends Meal implements Serializable {
+    private static final long serialVersionUID = -789106266171072293L;
 
     @NotNull
     @Positive

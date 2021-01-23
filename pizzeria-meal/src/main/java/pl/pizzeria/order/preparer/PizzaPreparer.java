@@ -6,12 +6,15 @@ import pl.pizzeria.meal.domain.Meal;
 import pl.pizzeria.meal.domain.MealDto;
 import pl.pizzeria.meal.domain.MealType;
 import pl.pizzeria.meal.domain.mapper.PizzaMapper;
+import pl.pizzeria.meal.domain.mapper.ToppingMapper;
 import pl.pizzeria.meal.domain.pizza.Pizza;
 import pl.pizzeria.meal.domain.pizza.PizzaDto;
 import pl.pizzeria.meal.domain.pizza.Topping;
+import pl.pizzeria.meal.domain.pizza.ToppingDto;
 import pl.pizzeria.meal.web.MealServiceImpl;
 import pl.pizzeria.order.domain.MealRequest;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -39,12 +42,19 @@ public class PizzaPreparer implements MealPreparer {
     }
 
     private void addToppingsToPizza(MealDto mealDto, List<Meal> toppings) {
+        List<ToppingDto> toppingDtoList = new LinkedList<>();
+        ToppingDto toppingDto;
+
         for(Meal topping: toppings) {
+            toppingDto = ToppingMapper.INSTANCE.toppingToToppingDto((Topping) topping);
+
             if(MealType.TOPPING.equals(topping.getMealType())) {
-                ((PizzaDto) mealDto).addTopping((Topping) topping);
+                toppingDtoList.add(toppingDto);
             } else {
                 throw new IllegalArgumentException("Invalid topping id");
             }
         }
+
+        ((PizzaDto) mealDto).setToppings(toppingDtoList);
     }
 }

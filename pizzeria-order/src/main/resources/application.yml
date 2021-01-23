@@ -1,11 +1,11 @@
 server:
-  port: 8081
+  port: 8082
 spring:
   jackson:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/pizzeria-meal
+    url: jdbc:postgresql://localhost:5432/pizzeria-order
     name: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -14,10 +14,11 @@ spring:
     show-sql: false
     generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         jdbc:
           time_zone: UTC
 rabbit:
   save-order-queue: save-order-queue
+  send-mail-queue: send-mail-queue
