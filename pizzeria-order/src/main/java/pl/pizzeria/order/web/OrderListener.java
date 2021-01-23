@@ -30,6 +30,6 @@ public class OrderListener {
             log.error(e.getMessage());
         }
 
-        rabbitTemplate.convertAndSend(sendMailQueue, order);
+        //rabbitTemplate.convertAndSend(sendMailQueue, order.getId());
     }
 }

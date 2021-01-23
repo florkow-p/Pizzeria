@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import pl.pizzeria.meal.domain.dinner.DinnerDto;
 import pl.pizzeria.meal.domain.mapper.DinnerMapper;
 import pl.pizzeria.meal.domain.mapper.MealMapper;
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
@@ -26,8 +28,13 @@ public class Order implements Serializable {
     private static final long serialVersionUID = -7322759631220603229L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_history_id")
