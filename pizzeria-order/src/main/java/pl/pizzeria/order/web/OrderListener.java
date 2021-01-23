@@ -1,6 +1,5 @@
 package pl.pizzeria.order.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -16,7 +15,6 @@ public class OrderListener {
 
     private final OrderServiceImpl orderService;
     private final RabbitTemplate rabbitTemplate;
-    private final ObjectMapper objectMapper;
 
     @Value("${rabbit.send-mail-queue}")
     private String sendMailQueue;
@@ -30,6 +28,6 @@ public class OrderListener {
             log.error(e.getMessage());
         }
 
-        //rabbitTemplate.convertAndSend(sendMailQueue, order.getId());
+        rabbitTemplate.convertAndSend(sendMailQueue, order.getId());
     }
 }
