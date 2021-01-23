@@ -23,11 +23,10 @@ public class OrderListener {
     public void orderListener(Order order) {
         try {
             orderService.save(order.convertToEntity());
+            rabbitTemplate.convertAndSend(sendMailQueue, order.getId());
         } catch (Exception e) {
             log.warn("Better exception handling system/logger required here!");
             log.error(e.getMessage());
         }
-
-        rabbitTemplate.convertAndSend(sendMailQueue, order.getId());
     }
 }
