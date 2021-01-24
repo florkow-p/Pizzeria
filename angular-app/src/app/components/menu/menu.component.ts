@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { Meal } from 'src/app/model/menu/meal';
 import { OrderRequest } from 'src/app/model/order-request';
 import { OrderService } from 'src/app/services/order.service';
+import { AddToCartDialogComponent } from '../add-to-cart-dialog/add-to-cart-dialog.component';
 
 @Component({
   selector: 'app-menu',
@@ -19,7 +21,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     var subscription = this.orderService.getMenu().subscribe((menu: Meal[]) => {
@@ -51,12 +53,18 @@ export class MenuComponent implements OnInit, OnDestroy {
     return this.toppings;
   }
 
+  openDialog(meal: Meal) {
+    this.dialog.open(AddToCartDialogComponent, {
+      data: {
+        meal: meal,
+        baseIngredients: this.baseIngredients,
+        extras: this.extras,
+        toppings: this.toppings
+      }
+    })
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
-
-  openDialog(meal: Meal) {
-    
-  }
-  
 }

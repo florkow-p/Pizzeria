@@ -15,9 +15,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { HttpClientModule } from '@angular/common/http';
 import { MenuItemComponent } from './components/menu-item/menu-item.component';
+import { CartItemComponent } from './components/cart-item/cart-item.component';
+import { AddToCartDialogComponent } from './components/add-to-cart-dialog/add-to-cart-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,9 @@ import { MenuItemComponent } from './components/menu-item/menu-item.component';
     HomeComponent,
     FooterComponent,
     MenuComponent,
-    MenuItemComponent
+    MenuItemComponent,
+    CartItemComponent,
+    AddToCartDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +42,8 @@ import { MenuItemComponent } from './components/menu-item/menu-item.component';
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
