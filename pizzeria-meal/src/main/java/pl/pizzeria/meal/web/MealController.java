@@ -13,6 +13,7 @@ import pl.pizzeria.order.domain.OrderRequest;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/v1/menu")
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class MealController {
         return new ResponseEntity<>(menu, HttpStatus.OK);
     }
 
-    @PostMapping("/order")
+    @PostMapping("")
     public ResponseEntity<Order> postOrder(@RequestBody OrderRequest orderRequest) {
         Order order = orderService.prepareOrder(orderRequest);
 
