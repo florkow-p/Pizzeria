@@ -1,0 +1,47 @@
+<div fxLayout.gt-sm="row" fxLayout="column" fxLayoutAlign.gt-sm="center center" fxLayoutAlign="center center" fxLayoutGap.gt-sm="64px" fxLayoutGap="24px" 
+style="min-height: calc(100vh - 178px);">
+    <mat-card style="max-width: 80vw;">
+        <mat-card-title>
+            Menu
+        </mat-card-title>
+        <mat-card-subtitle style="margin-top: 12px;">
+            Pizza
+        </mat-card-subtitle>
+            <ng-container *ngFor="let item of getMeal()">
+                <div *ngIf="item.mealType.match('PIZZA')" fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 4px;">
+                    <app-menu-item [item]="item"></app-menu-item>
+                </div>
+            </ng-container>
+        <mat-card-subtitle style="margin-top: 12px;">
+            Dania główne
+        </mat-card-subtitle>
+            <ng-container *ngFor="let item of getMeal()">
+                <div *ngIf="item.mealType.match('DINNER')" fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 4px;">
+                    <app-menu-item [item]="item"></app-menu-item>
+                </div>
+            </ng-container>
+        <mat-card-subtitle style="margin-top: 12px;">
+            Zupy
+        </mat-card-subtitle>
+            <ng-container *ngFor="let item of getMeal()">
+                <div *ngIf="item.mealType.match('SOUP')" fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 4px;">
+                    <app-menu-item [item]="item"></app-menu-item>
+                </div>
+            </ng-container>
+        <mat-card-subtitle style="margin-top: 12px;">
+            Napoje
+        </mat-card-subtitle>
+            <ng-container *ngFor="let item of getMeal()">
+                <div *ngIf="item.mealType.match('DRINK')" fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 4px;">
+                    <app-menu-item [item]="item"></app-menu-item>
+                </div>
+            </ng-container>
+    </mat-card>
+
+    <mat-card style="max-width: 80vw;">
+        <mat-card-title>
+            Koszyk
+        </mat-card-title>
+        
+    </mat-card>
+</div>
