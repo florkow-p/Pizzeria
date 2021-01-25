@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.pizzeria.order.domain.Order;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/orders/history")
+@RequestMapping("/v1/history")
 public class OrderController {
 
     private final OrderServiceImpl orderService;
@@ -24,7 +25,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable("{id}") final Long id) {
+    public ResponseEntity<Order> getOrderById(@PathVariable("{id}") final UUID id) {
         return orderService.findById(id)
                 .map(order -> new ResponseEntity<>(order, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
