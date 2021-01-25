@@ -16,11 +16,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { HttpClientModule } from '@angular/common/http';
 import { MenuItemComponent } from './components/menu-item/menu-item.component';
 import { CartItemComponent } from './components/cart-item/cart-item.component';
 import { AddToCartDialogComponent } from './components/add-to-cart-dialog/add-to-cart-dialog.component';
+
+import { FormsModule } from '@angular/forms';
+import { SendOrderDialogComponent } from './components/send-order-dialog/send-order-dialog.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +39,9 @@ import { AddToCartDialogComponent } from './components/add-to-cart-dialog/add-to
     MenuComponent,
     MenuItemComponent,
     CartItemComponent,
-    AddToCartDialogComponent
+    AddToCartDialogComponent,
+    SendOrderDialogComponent,
+    OrderHistoryComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +53,12 @@ import { AddToCartDialogComponent } from './components/add-to-cart-dialog/add-to
     MatIconModule,
     MatMenuModule,
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    MatButtonToggleModule,
+    MatRadioModule,
+    FormsModule,
+    MatCheckboxModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

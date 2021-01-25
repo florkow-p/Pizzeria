@@ -1,12 +1,59 @@
-<div fxLayout="column" fxLayoutAlign="center center">
-    <span style="font-size: 18px;">{{meal?.name}}</span>
+<div fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="12px">
+    <span style="font-size: 18px;">{{meal?.name}} <span style="padding-left: 24px;">{{meal?.price}}zł</span></span>
 
-    <div>
-
+    <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="4px" style="width: 100%;">
+        <span style="padding-right: 12px;">Ilość:</span>
+        <button (click)="decrease()" mat-raised-button
+            style="background-color: #e85034; color: snow; transform: scale(0.6);">
+            <mat-icon style="overflow: hidden;">remove</mat-icon>
+        </button>
+        <span>{{getQuantity()}}</span>
+        <button (click)="increase()" mat-raised-button
+            style="background-color: #e85034; color: snow; transform: scale(0.6);">
+            <mat-icon style="overflow: hidden;">addition</mat-icon>
+        </button>
     </div>
 
-    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="24px">
+    <div *ngIf="meal?.mealType?.match('PIZZA')">
+        <div fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="4px">
+            <span>Dodatki:</span>
+            <ng-container *ngFor="let item of toppings">
+                <mat-checkbox (change)="setToppings(item, $event.checked)" style="width: 100%;">
+                    <div fxLayout="row" fxLayoutAlign="space-between center" style="width: 150px;">
+                        <span>{{item.name}}</span>
+                        <span>{{item.price}}zł</span>
+                    </div>
+                </mat-checkbox>
+            </ng-container>
+        </div>
+    </div>
+
+    <div *ngIf="meal?.mealType?.match('DINNER')">
+        <div *ngIf="meal?.allowedBaseIngredient">
+            <mat-radio-group [(ngModel)]="selectedIngredient">
+                <mat-radio-button style="padding: 12px;" *ngFor="let ingredient of baseIngredients"
+                    [value]="ingredient">
+                    {{ingredient.name}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="4px">
+            <span>Dodatki:</span>
+            <mat-radio-group [(ngModel)]="selectedExtras">
+                <mat-radio-button fxLayout="column" style="padding: 12px;" *ngFor="let extra of extras" [value]="extra">
+                    <div fxLayout="row" fxLayoutAlign="space-between center" style="width: 150px;">
+                        <span>{{extra.name}}</span>
+                        <span>{{extra.price}}zł</span>
+                    </div>
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+
+    <div *ngIf="meal?.mealType?.match('SOUP') || meal?.mealType?.match('DRINK')"></div>
+
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="24px" style="width: 100%;">
         <button mat-button style="color: #e85034;" mat-dialog-close>anuluj</button>
-        <button mat-raised-button style="background-color: #e85034; color: snow;">DODAJ</button>
+        <button mat-raised-button style="background-color: #e85034; color: snow; width: 100px;" (click)="addToCart()" mat-dialog-close>DODAJ</button>
     </div>
 </div>

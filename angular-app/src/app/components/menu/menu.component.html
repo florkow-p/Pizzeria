@@ -7,7 +7,7 @@ style="min-height: calc(100vh - 178px); padding-top: 24px; padding-bottom: 24px;
         <mat-card-subtitle style="margin-top: 12px;">
             Pizza
         </mat-card-subtitle>
-            <ng-container *ngFor="let item of getMeal()">
+            <ng-container *ngFor="let item of getMenu()">
                 <div *ngIf="item.mealType.match('PIZZA')" style="padding-top: 4px; width: 100%;">
                     <button mat-button style="width: 100%;" (click)="openDialog(item)">
                         <app-menu-item [item]="item"></app-menu-item>
@@ -17,7 +17,7 @@ style="min-height: calc(100vh - 178px); padding-top: 24px; padding-bottom: 24px;
         <mat-card-subtitle style="margin-top: 12px;">
             Dania główne
         </mat-card-subtitle>
-            <ng-container *ngFor="let item of getMeal()">
+            <ng-container *ngFor="let item of getMenu()">
                 <div *ngIf="item.mealType.match('DINNER')" style="padding-top: 4px; width: 100%;">
                     <button mat-button style="width: 100%;" (click)="openDialog(item)">
                         <app-menu-item [item]="item"></app-menu-item>
@@ -27,7 +27,7 @@ style="min-height: calc(100vh - 178px); padding-top: 24px; padding-bottom: 24px;
         <mat-card-subtitle style="margin-top: 12px;">
             Zupy
         </mat-card-subtitle>
-            <ng-container *ngFor="let item of getMeal()">
+            <ng-container *ngFor="let item of getMenu()">
                 <div *ngIf="item.mealType.match('SOUP')" style="padding-top: 4px; width: 100%;">
                     <button mat-button style="width: 100%;" (click)="openDialog(item)">
                         <app-menu-item [item]="item"></app-menu-item>
@@ -37,7 +37,7 @@ style="min-height: calc(100vh - 178px); padding-top: 24px; padding-bottom: 24px;
         <mat-card-subtitle style="margin-top: 12px;">
             Napoje
         </mat-card-subtitle>
-            <ng-container *ngFor="let item of getMeal()">
+            <ng-container *ngFor="let item of getMenu()">
                 <div *ngIf="item.mealType.match('DRINK')" style="padding-top: 4px; width: 100%;">
                     <button mat-button style="width: 100%;" (click)="openDialog(item)">
                         <app-menu-item [item]="item"></app-menu-item>
@@ -50,6 +50,9 @@ style="min-height: calc(100vh - 178px); padding-top: 24px; padding-bottom: 24px;
         <mat-card-title>
             Koszyk
         </mat-card-title>
+        <div style="min-height: 300px;">
+            <app-cart-item></app-cart-item>
+        </div>
         
     </mat-card>
 </div>

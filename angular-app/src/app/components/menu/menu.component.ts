@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { Meal } from 'src/app/model/menu/meal';
 import { OrderRequest } from 'src/app/model/order-request';
+import { MenuService } from 'src/app/services/menu.service';
 import { OrderService } from 'src/app/services/order.service';
 import { AddToCartDialogComponent } from '../add-to-cart-dialog/add-to-cart-dialog.component';
 
@@ -14,25 +15,25 @@ import { AddToCartDialogComponent } from '../add-to-cart-dialog/add-to-cart-dial
 export class MenuComponent implements OnInit, OnDestroy {
 
   private orderRequest: any;
-  private meal: Meal[] = [];
+  private menu: Meal[] = [];
   private baseIngredients: Meal[] = [];
   private toppings: Meal[] = [];
   private extras: Meal[] = [];
 
   private subscriptions: Subscription[] = [];
 
-  constructor(private orderService: OrderService, private dialog: MatDialog) {}
+  constructor(private orderService: OrderService, private menuService: MenuService,private dialog: MatDialog) {}
 
   ngOnInit(): void {
     var subscription = this.orderService.getMenu().subscribe((menu: Meal[]) => {
-      this.meal = menu;
+      this.menu = menu;
       this.prepareAddings();
     });
     this.subscriptions.push(subscription);
   }
 
   prepareAddings(): void {
-    this.meal.forEach(item => {
+    this.menu.forEach(item => {
       if(item.mealType.match('EXTRAS')) {
         this.extras.push(item);
       }
@@ -43,10 +44,15 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.baseIngredients.push(item);
       }
     });
+    
+    this.menuService.menu = this.menu;
+    this.menuService.toppings = this.toppings;
+    this.menuService.extras = this.extras;
+    this.menuService.baseIngredients = this.baseIngredients;
   }
 
-  getMeal() {
-    return this.meal;
+  getMenu() {
+    return this.menu;
   }
 
   getToppings() {

@@ -1,1 +1,22 @@
-<p>cart-item works!</p>
+<div fxLayout="column" fxLayoutAlign="space-between space-between" style="min-height: 300px;">
+    <div>
+        <ng-container *ngFor="let item of orderItems" style="min-height: 10px;">
+            <li fxLayout="row" fxLayoutAlign="space-between center" style="padding: 8px;">
+                <span>{{item.meal.name}}</span>
+                <span>x{{item.quantity}}</span>
+            </li>
+            <span>{{item.meal?.baseIngredient}}</span>
+        </ng-container>
+    </div>
+    <div>
+        <div fxLayout="row" fxLayoutAlign="space-between center" style="padding: 8px;">
+            <span>SUMA:</span>
+            <span>{{getPrice()}}zł</span>
+        </div>
+        <mat-divider></mat-divider>
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="12px" style="padding-top: 12px;">
+            <button mat-button style="color: #e85034;" (click)="clearCart()">wyczyść</button>
+            <button mat-raised-button style="background-color: #e85034; color: snow;">ZAPŁAĆ</button>
+        </div>
+    </div>
+</div>
