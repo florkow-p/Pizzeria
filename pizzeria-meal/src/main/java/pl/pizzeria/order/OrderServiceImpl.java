@@ -65,13 +65,17 @@ public class OrderServiceImpl implements OrderService {
                 mealDto = MealMapper.INSTANCE.mealToMealDto(meal);
             }
 
-            totalOrderPrice = totalOrderPrice.add(mealDto.getTotalPrice());
+            totalOrderPrice = totalOrderPrice.add(calculateTotalPrice(mealDto, mealRequest));
             orderItems.add(OrderItem.from(mealDto, mealRequest.getQuantity()));
         }
 
         this.order = new Order(orderItems, orderRequest.getOrderDetails(), totalOrderPrice);
 
         return order;
+    }
+
+    private BigDecimal calculateTotalPrice(MealDto mealDto, MealRequest mealRequest) {
+        return mealDto.getTotalPrice().multiply(BigDecimal.valueOf(mealRequest.getQuantity()));
     }
 
     private void init() {

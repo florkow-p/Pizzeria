@@ -1,17 +1,17 @@
 package pl.pizzeria.order.web;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.pizzeria.order.domain.Order;
 
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
+@CrossOrigin
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/history")
@@ -24,10 +24,16 @@ public class OrderController {
         return new ResponseEntity<>(orderService.get(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable("{id}") final UUID id) {
-        return orderService.findById(id)
+    @GetMapping("")
+    public ResponseEntity<Order> getOrderById(@RequestParam final String id) {
+        return orderService.findById(UUID.fromString(id))
                 .map(order -> new ResponseEntity<>(order, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handleException(IllegalArgumentException e) {
+        log.error(e.getMessage());
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

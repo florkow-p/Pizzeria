@@ -31,18 +31,13 @@ public class Order implements Serializable {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+            strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_history_id")
     private Set<OrderItemEntity> orderItems;
-
-    @Transient
-    @JsonIgnore
-    private Set<OrderItem> orderItemSet;
 
     @Embedded
     private OrderDetails orderDetails;
@@ -52,6 +47,10 @@ public class Order implements Serializable {
     private Timestamp creationTime;
 
     private BigDecimal price;
+
+    @Transient
+    @JsonIgnore
+    private Set<OrderItem> orderItemSet;
 
     public Order convertToEntity() {
         if(orderItems == null) {
