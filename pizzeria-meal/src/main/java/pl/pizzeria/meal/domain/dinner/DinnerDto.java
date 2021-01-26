@@ -7,6 +7,7 @@ import lombok.Setter;
 import pl.pizzeria.meal.domain.MealDto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -20,4 +21,18 @@ public class DinnerDto extends MealDto implements Serializable {
 
     @JsonIgnore
     private boolean allowedBaseIngredient;
+
+    @Override
+    public BigDecimal getTotalPrice() {
+        BigDecimal totalPrice = new BigDecimal(String.valueOf(getPrice()));
+
+        if(extras != null) {
+            totalPrice = totalPrice.add(extras.getPrice());
+        }
+        if(baseIngredient != null) {
+            totalPrice = totalPrice.add(baseIngredient.getPrice());
+        }
+
+        return totalPrice;
+    }
 }

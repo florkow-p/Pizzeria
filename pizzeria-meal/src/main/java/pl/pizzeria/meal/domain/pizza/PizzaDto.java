@@ -6,6 +6,7 @@ import lombok.Setter;
 import pl.pizzeria.meal.domain.MealDto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,4 +17,15 @@ public class PizzaDto extends MealDto implements Serializable {
     private static final long serialVersionUID = 6596146530547941213L;
 
     private List<ToppingDto> toppings = new LinkedList<>();
+
+    @Override
+    public BigDecimal getTotalPrice() {
+        BigDecimal totalPrice = new BigDecimal(String.valueOf(getPrice()));
+
+        for(ToppingDto topping: toppings) {
+            totalPrice = totalPrice.add(topping.getPrice());
+        }
+
+        return totalPrice;
+    }
 }

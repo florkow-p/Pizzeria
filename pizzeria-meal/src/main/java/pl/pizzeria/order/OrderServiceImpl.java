@@ -65,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
                 mealDto = MealMapper.INSTANCE.mealToMealDto(meal);
             }
 
-            totalOrderPrice = totalOrderPrice.add(mealDto.getPrice());
+            totalOrderPrice = totalOrderPrice.add(mealDto.getTotalPrice());
             orderItems.add(OrderItem.from(mealDto, mealRequest.getQuantity()));
         }
 

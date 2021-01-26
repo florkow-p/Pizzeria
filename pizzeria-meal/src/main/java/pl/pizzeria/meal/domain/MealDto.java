@@ -30,4 +30,12 @@ public class MealDto implements Serializable {
     @Positive
     @NotNull
     private BigDecimal price;
+
+    public void addPrice(BigDecimal price) {
+        this.price = this.price.add(price);
+    }
+
+    public BigDecimal getTotalPrice() {
+        return getPrice();
+    }
 }
