@@ -21,7 +21,7 @@ export class AddToCartDialogComponent implements OnInit {
   extras: Meal[] = [];
   baseIngredients: Meal[] = [];
 
-  selectedToppings: number[] = [];
+  selectedToppings: any[] = [];
   selectedIngredient: any;
   selectedExtras: any;
 
@@ -32,19 +32,30 @@ export class AddToCartDialogComponent implements OnInit {
   }
 
   addToCart() {
-    this.mealRequest = new MealRequest();
-    this.mealRequest.id = this.meal.id;
-    this.mealRequest.quantity = this.quantity;
-    this.mealRequest.toppings = this.selectedToppings;
-    this.mealRequest.baseIngredientId = this.selectedIngredient?.id;
-    this.mealRequest.extrasId = this.selectedExtras?.id;
-
-    var orderItem = new OrderItem(this.meal, this.quantity);
+    this.prepareMealRequest();
 
     if(this.quantity > 0) {
       this.cartService.addMeal(this.mealRequest, this.calculatePrice());
-      this.cartService.addOrderItem(orderItem);
+      this.cartService.addOrderItem(this.prepareOrderItem());
     }
+  }
+
+  private prepareOrderItem() {
+    var meal: Meal = new Meal(this.meal.id, this.meal.name, this.meal.mealType, this.meal.price, this.meal.allowedBaseIngredient);
+    meal.baseIngredient = this.selectedIngredient;
+    meal.toppings = this.selectedToppings;
+    meal.extras = this.selectedExtras;
+
+    return new OrderItem(meal, this.quantity);
+  }
+
+  private prepareMealRequest() {
+    this.mealRequest = new MealRequest();
+    this.mealRequest.id = this.meal.id;
+    this.mealRequest.quantity = this.quantity;
+    this.mealRequest.toppings = this.selectedToppings.map(topping => topping.id);
+    this.mealRequest.baseIngredientId = this.selectedIngredient?.id;
+    this.mealRequest.extrasId = this.selectedExtras?.id;
   }
 
   private calculatePrice(): number {
@@ -62,13 +73,13 @@ export class AddToCartDialogComponent implements OnInit {
   }
 
   setToppings(topping: Meal, checked: boolean) {
-    if(checked && !this.selectedToppings.includes(topping.id)) {
-      this.selectedToppings.push(topping.id);
+    if(checked && !this.selectedToppings.includes(topping)) {
+      this.selectedToppings.push(topping);
       this.price += topping.price;
     }
 
     if(!checked) {
-      const index: number = this.selectedToppings.indexOf(topping.id);
+      const index: number = this.selectedToppings.indexOf(topping);
       if (index !== -1) {
         this.selectedToppings.splice(index, 1);
         this.price -= topping.price;

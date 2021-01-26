@@ -1,11 +1,23 @@
-<div fxLayout="column" fxLayoutAlign="space-between space-between" style="min-height: 300px;">
+<div fxLayout="column" fxLayoutAlign="space-between space-between" style="min-height: 300px; min-width: 250px;">
     <div>
         <ng-container *ngFor="let item of orderItems" style="min-height: 10px;">
-            <li fxLayout="row" fxLayoutAlign="space-between center" style="padding: 8px;">
-                <span>{{item.meal.name}}</span>
+            <li fxLayout="row" fxLayoutAlign="space-between center" style="padding: 8px; border-bottom: 1px solid;">
+                <span>
+                    {{item.meal.name}} - {{item.meal.price}}zł
+                    <span *ngIf="item.meal.allowedBaseIngredient && item.meal?.baseIngredient != undefined">
+                        ({{item.meal?.baseIngredient?.name}})
+                    </span>
+                    <li *ngIf="item.meal?.extras != undefined">
+                        {{item.meal.extras.name}} - {{item.meal.extras.price}}zł
+                    </li>
+                    <div *ngIf="item.meal?.toppings != undefined && item.meal?.toppings?.length">
+                        <li *ngFor="let topping of item.meal.toppings">
+                            {{topping.name}} - {{topping.price}}zł
+                        </li>
+                    </div>
+                </span>
                 <span>x{{item.quantity}}</span>
             </li>
-            <span>{{item.meal?.baseIngredient}}</span>
         </ng-container>
     </div>
     <div>
@@ -16,7 +28,7 @@
         <mat-divider></mat-divider>
         <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="12px" style="padding-top: 12px;">
             <button mat-button style="color: #e85034;" (click)="clearCart()">wyczyść</button>
-            <button mat-raised-button style="background-color: #e85034; color: snow;">ZAPŁAĆ</button>
+            <button mat-raised-button style="background-color: #e85034; color: snow;" (click)="payForOrderDialog()">ZAPŁAĆ</button>
         </div>
     </div>
 </div>

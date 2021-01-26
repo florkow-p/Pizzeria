@@ -20,6 +20,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatInputModule } from '@angular/material/input';
 
 import { HttpClientModule } from '@angular/common/http';
 import { MenuItemComponent } from './components/menu-item/menu-item.component';
@@ -58,7 +59,8 @@ import { OrderHistoryComponent } from './components/order-history/order-history.
     MatRadioModule,
     FormsModule,
     MatCheckboxModule,
-    MatDividerModule
+    MatDividerModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
