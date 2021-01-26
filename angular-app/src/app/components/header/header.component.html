@@ -7,16 +7,14 @@
         <div fxShow.gt-sm="true" fxHide fxLayoutAlign="end center" style="padding-right: 32px;">
             <a href="" mat-button>STRONA GŁÓWNA</a>
             <a href="menu" mat-button>MENU</a> 
-            <a mat-button>ZAMÓWIENIA</a>
-            <a mat-button>INFO</a>
+            <a href="order" mat-button>ZAMÓWIENIA</a>
         </div>
         <div fxShow fxHide.gt-sm="true" fxLayoutAlign="end center" style="padding-right: 12px;">
             <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>menu</mat-icon></button> 
             <mat-menu #menu="matMenu">
                 <a href="" mat-menu-item>STRONA GŁÓWNA</a>
                 <a href="menu" mat-menu-item>MENU</a>
-                <a mat-menu-item>ZAMÓWIENIA</a>
-                <a mat-menu-item>INFO</a>
+                <a href="order" mat-menu-item>ZAMÓWIENIA</a>
             </mat-menu>
         </div>
     </div>

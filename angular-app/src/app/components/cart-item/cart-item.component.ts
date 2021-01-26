@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MealRequest } from 'src/app/model/meal-request';
-import { Meal } from 'src/app/model/menu/meal';
-import { Order } from 'src/app/model/order/order';
 import { OrderItem } from 'src/app/model/order/order-item';
 import { CartService } from 'src/app/services/cart.service';
 import { SendOrderDialogComponent } from '../send-order-dialog/send-order-dialog.component';

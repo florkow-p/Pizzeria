@@ -1,1 +1,52 @@
-<p>order-history works!</p>
+<div fxLayout="column" fxLayoutAlign="center center" style="width: 100%; min-height: calc(100vh - 178px);">
+    <mat-card style="min-height: 400px; min-width: 300px; max-width: 40vw; margin: 24px;">
+        <mat-card-title>
+            Historia zamówień
+        </mat-card-title>
+        <div fxLayout="row" fxLayoutAlign="space-between center" style="padding: 12px; width: 100%">
+            <mat-form-field style="min-width: 250px;">
+                <mat-label>Nr zamówienia (UUID)</mat-label>
+                <input [(ngModel)]="orderId" name="orderId" matInput>
+            </mat-form-field>
+            <button mat-raised-button style="background-color: #e85034; color: snow; margin-left: 24px;"
+                (click)="getOrder()">
+                POBIERZ
+            </button>
+        </div>
+
+        <div *ngIf="order != undefined" style="padding-top: 12px; padding-bottom: 12px;">
+            <div style="font-size: 24px; padding-bottom: 12px; text-align: center;">DANE</div>
+            <div>Zamówione przez: <b>{{order.orderDetails.name}}</b></div>
+            <div style="padding: 12px">
+                <ng-container *ngFor="let item of order?.orderItems">
+                    <li fxLayout="row" fxLayoutAlign="space-between center"
+                        style="padding: 8px; border-bottom: 1px solid;">
+                        <span>
+                            {{item.meal.name}} - {{item.meal.price}}zł
+                            <span *ngIf="item.meal.allowedBaseIngredient && item.meal?.baseIngredient != undefined">
+                                ({{item.meal?.baseIngredient?.name}})
+                            </span>
+                    <li *ngIf="item.meal?.extras != undefined">
+                        {{item.meal.extras.name}} - {{item.meal.extras.price}}zł
+                    </li>
+                    <div *ngIf="item.meal?.toppings != undefined && item.meal?.toppings?.length">
+                        <li *ngFor="let topping of item.meal.toppings">
+                            {{topping.name}} - {{topping.price}}zł
+                        </li>
+                    </div>
+                    </span>
+                    <span>x{{item.quantity}}</span>
+                    </li>
+                </ng-container>
+            </div>
+            <div fxLayoutAlign="space-between center" style="padding: 12px;">
+                <div>Razem:</div>
+                <div>{{order.price}}zł</div>
+            </div>
+            <div style="padding-top: 12px;">
+                <p>Komentarz:</p>
+                <span>{{order.orderDetails?.comment}}</span>
+            </div>
+        </div>
+    </mat-card>
+</div>

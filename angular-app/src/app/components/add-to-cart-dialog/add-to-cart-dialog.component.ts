@@ -106,5 +106,9 @@ export class AddToCartDialogComponent implements OnInit {
     this.toppings = this.menuService.toppings;
     this.extras = this.menuService.extras;
     this.baseIngredients = this.menuService.baseIngredients;
+
+    if(this.meal.allowedBaseIngredient) {
+      this.selectedIngredient = this.baseIngredients[0];
+    }
   }
 }
