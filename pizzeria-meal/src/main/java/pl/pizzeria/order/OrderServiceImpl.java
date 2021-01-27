@@ -83,7 +83,7 @@ public class OrderServiceImpl implements OrderService {
         this.orderItems = new HashSet<>();
     }
 
-    public boolean isMealValid(Meal meal) {
+    private boolean isMealValid(Meal meal) {
         List<MealType> validMealTypes = Arrays.asList(MealType.PIZZA, MealType.DINNER, MealType.DRINKS, MealType.SOUP);
         return validMealTypes.contains(meal.getMealType());
     }
