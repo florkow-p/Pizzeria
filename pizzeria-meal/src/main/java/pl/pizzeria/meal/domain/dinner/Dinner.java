@@ -1,23 +1,19 @@
 package pl.pizzeria.meal.domain.dinner;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import pl.pizzeria.meal.domain.Meal;
-import pl.pizzeria.meal.domain.MealType;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import java.math.BigDecimal;
 import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
 @Entity
+@SuperBuilder
 public class Dinner extends Meal {
     @Transient
     @JsonIgnore
@@ -28,15 +24,6 @@ public class Dinner extends Meal {
     private BaseIngredient baseIngredient;
 
     private boolean allowedBaseIngredient;
-
-    @Builder
-    public Dinner(Long id, @NotBlank String name, @NotNull MealType mealType, @Positive BigDecimal price,
-                  Extras extras, BaseIngredient baseIngredient, boolean allowedBaseIngredient) {
-        super(id, name, mealType, price);
-        this.extras = extras;
-        this.baseIngredient = baseIngredient;
-        this.allowedBaseIngredient = allowedBaseIngredient;
-    }
 
     public void setBaseIngredient(BaseIngredient baseIngredient) {
         this.baseIngredient = baseIngredient;

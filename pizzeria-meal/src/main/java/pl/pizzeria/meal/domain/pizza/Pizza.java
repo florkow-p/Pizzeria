@@ -1,35 +1,24 @@
 package pl.pizzeria.meal.domain.pizza;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import pl.pizzeria.meal.domain.Meal;
-import pl.pizzeria.meal.domain.MealType;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
 @Entity
+@SuperBuilder
 public class Pizza extends Meal {
     @Transient
     @JsonIgnore
     private List<Topping> toppings;
-
-    @Builder
-    public Pizza(Long id, @NotBlank String name, @NotNull MealType mealType,
-                 @Positive BigDecimal price, List<Topping> toppings) {
-        super(id, name, mealType, price);
-        this.toppings = toppings;
-    }
 
     public void addTopping(Topping topping) {
         this.toppings.add(topping);

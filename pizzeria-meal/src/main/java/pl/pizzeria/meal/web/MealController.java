@@ -31,7 +31,7 @@ public class MealController {
         List<Meal> menu = mealService.findAll();
 
         if(menu == null || menu.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.GONE);
         }
 
         return new ResponseEntity<>(menu, HttpStatus.OK);
