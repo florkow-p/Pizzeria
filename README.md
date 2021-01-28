@@ -15,6 +15,8 @@ DB of my choice was postgres but any other should be fine as well. There's no re
 [pizzeria-discovery](https://github.com/Patryk-F/Pizzeria/tree/master/pizzeria-discovery) which has to be started as first one.
 If you're going to start rabbitmq, backend and frontend locally you should be fine and the only thing to configure might be the database and smtp server properties.
 
+To start angular-app open terminal in project folder and type `ng serve` in case of any problems visit [angular setup](https://angular.io/guide/setup-local).
+
 List of services in recommended order:
 1. pizzeria-discovery
 2. pizzeria-gateway
