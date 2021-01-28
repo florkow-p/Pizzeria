@@ -1,10 +1,6 @@
 package pl.pizzeria.order.preparer;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.pizzeria.meal.domain.Meal;
 import pl.pizzeria.meal.domain.MealDto;
 import pl.pizzeria.meal.domain.MealType;
@@ -12,24 +8,16 @@ import pl.pizzeria.meal.domain.pizza.Pizza;
 import pl.pizzeria.meal.domain.pizza.PizzaDto;
 import pl.pizzeria.meal.domain.pizza.Topping;
 import pl.pizzeria.meal.domain.pizza.ToppingDto;
-import pl.pizzeria.meal.web.MealServiceImpl;
 import pl.pizzeria.order.domain.MealRequest;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.any;
-import static org.mockito.BDDMockito.given;
 
-@SpringBootTest
 class PizzaPreparerTest {
 
-    @MockBean
-    private MealServiceImpl mealService;
-
-    @Autowired
-    private PizzaPreparer pizzaPreparer;
+    private final PizzaPreparer pizzaPreparer = new PizzaPreparer();
 
     private Meal pizza;
     private List<Meal> toppings;
@@ -38,9 +26,8 @@ class PizzaPreparerTest {
     @Test
     public void prepareValidPizza() {
         pizzaInit();
-        given(mealService.findByIdIn(any())).willReturn(toppings);
 
-        MealDto mealDto = pizzaPreparer.prepare(pizza, pizzaMealRequest);
+        MealDto mealDto = pizzaPreparer.prepare(pizza, pizzaMealRequest, toppings);
         ToppingDto toppingDto = ((PizzaDto) mealDto).getToppings().get(0);
 
         assertEquals(mealDto.getTotalPrice(), BigDecimal.valueOf(12));
@@ -49,15 +36,14 @@ class PizzaPreparerTest {
         assertFalse(((PizzaDto) mealDto).getToppings().isEmpty());
         assertEquals(toppingDto.getName(), "topping name");
         assertEquals(toppingDto.getMealType(), MealType.TOPPING);
-        Assertions.assertEquals(toppingDto.getTotalPrice(), BigDecimal.valueOf(2));
+        assertEquals(toppingDto.getTotalPrice(), BigDecimal.valueOf(2));
     }
 
     @Test
     public void invalidTopping_ShouldThrowException() {
         invalidPizzaInit();
-        given(mealService.findByIdIn(any())).willReturn(toppings);
 
-        assertThrows(IllegalArgumentException.class, () -> pizzaPreparer.prepare(pizza, pizzaMealRequest));
+        assertThrows(IllegalArgumentException.class, () -> pizzaPreparer.prepare(pizza, pizzaMealRequest, toppings));
     }
 
     private void invalidPizzaInit() {

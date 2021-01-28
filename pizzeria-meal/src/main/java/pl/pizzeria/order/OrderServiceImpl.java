@@ -26,12 +26,23 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
+    public static final String ORDER_NOT_PREPARED = "Order was not prepared";
+    public static final String INVALID_MEAL_TYPE = "Invalid meal type";
+    public static final String INVALID_MEAL_ID = "Invalid meal id";
+
     private final MealServiceImpl mealService;
     private final PizzaPreparer pizzaPreparer;
     private final DinnerPreparer dinnerPreparer;
 
     private Order order;
+    private List<Meal> menu;
     private Set<OrderItem> orderItems;
+
+    private void init() {
+        this.order = new Order();
+        this.orderItems = new HashSet<>();
+        this.menu = mealService.findAll();
+    }
 
     @Override
     public Order getOrder() {
@@ -39,31 +50,27 @@ public class OrderServiceImpl implements OrderService {
             return order;
         }
 
-        throw new IllegalStateException("Order was not prepared");
+        throw new IllegalStateException(ORDER_NOT_PREPARED);
     }
 
     @Override
     public Order prepareOrder(OrderRequest orderRequest) {
-        BigDecimal totalOrderPrice = new BigDecimal(0);
         List<MealRequest> mealRequests = orderRequest.getMealRequests();
+        BigDecimal totalOrderPrice = new BigDecimal(0);
         init();
 
+        MealDto mealDto;
         for(MealRequest mealRequest: mealRequests) {
-            Meal meal = mealService.findById(mealRequest.getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid meal id"));
+            Meal meal = menu.stream()
+                    .filter(item -> item.getId().equals(mealRequest.getId()))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException(INVALID_MEAL_ID));
 
             if(!isMealValid(meal)) {
-                throw new IllegalArgumentException("Invalid meal type");
+                throw new IllegalArgumentException(INVALID_MEAL_TYPE);
             }
 
-            MealDto mealDto;
-            if(meal instanceof Pizza) {
-                mealDto = pizzaPreparer.prepare(meal, mealRequest);
-            } else if(meal instanceof Dinner) {
-                mealDto = dinnerPreparer.prepare(meal, mealRequest);
-            } else {
-                mealDto = MealMapper.INSTANCE.mealToMealDto(meal);
-            }
+            mealDto = prepareMeal(meal, mealRequest, menu);
 
             totalOrderPrice = totalOrderPrice.add(calculateTotalPrice(mealDto, mealRequest));
             orderItems.add(OrderItem.from(mealDto, mealRequest.getQuantity()));
@@ -74,13 +81,21 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
-    private BigDecimal calculateTotalPrice(MealDto mealDto, MealRequest mealRequest) {
-        return mealDto.getTotalPrice().multiply(BigDecimal.valueOf(mealRequest.getQuantity()));
+    private MealDto prepareMeal(Meal meal, MealRequest mealRequest, List<Meal> menu) {
+        MealDto mealDto;
+        if(meal instanceof Pizza) {
+            mealDto = pizzaPreparer.prepare(meal, mealRequest, menu);
+        } else if(meal instanceof Dinner) {
+            mealDto = dinnerPreparer.prepare(meal, mealRequest, menu);
+        } else {
+            mealDto = MealMapper.INSTANCE.mealToMealDto(meal);
+        }
+
+        return mealDto;
     }
 
-    private void init() {
-        this.order = new Order();
-        this.orderItems = new HashSet<>();
+    private BigDecimal calculateTotalPrice(MealDto mealDto, MealRequest mealRequest) {
+        return mealDto.getTotalPrice().multiply(BigDecimal.valueOf(mealRequest.getQuantity()));
     }
 
     private boolean isMealValid(Meal meal) {

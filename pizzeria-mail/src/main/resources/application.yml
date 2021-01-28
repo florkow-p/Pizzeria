@@ -8,8 +8,8 @@ spring:
   application:
     name: pizzeria-mail
   mail:
-    host: smtp.server
-    username: from@mail.com
+    host: smtp.gmail.com
+    username: mail@mail.com
     password: password
     port: 587
     properties:
@@ -18,7 +18,7 @@ spring:
         starttls.enable: true
         ssl.enable: false
 mail:
-  to: to@mail.com
-  from: from@mail.com
+  to: mail@gmail.com
+  from: mail@gmail.com
 rabbit:
   send-mail-queue: send-mail-queue

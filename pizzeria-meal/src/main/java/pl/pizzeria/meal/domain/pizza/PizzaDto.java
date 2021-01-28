@@ -16,12 +16,17 @@ import java.util.List;
 public class PizzaDto extends MealDto implements Serializable {
     private static final long serialVersionUID = 6596146530547941213L;
 
-    private List<ToppingDto> toppings = new LinkedList<>();
+    private List<ToppingDto> toppings;
 
     @Override
     public BigDecimal getTotalPrice() {
-        BigDecimal totalPrice = new BigDecimal(String.valueOf(getPrice()));
+        if(toppings == null) {
+            toppings = new LinkedList<>();
 
+            return getPrice();
+        }
+
+        BigDecimal totalPrice = new BigDecimal(String.valueOf(getPrice()));
         for(ToppingDto topping: toppings) {
             totalPrice = totalPrice.add(topping.getPrice());
         }

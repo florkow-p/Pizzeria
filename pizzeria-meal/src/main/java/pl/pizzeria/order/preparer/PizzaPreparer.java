@@ -1,6 +1,5 @@
 package pl.pizzeria.order.preparer;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.pizzeria.meal.domain.Meal;
 import pl.pizzeria.meal.domain.MealDto;
@@ -11,28 +10,29 @@ import pl.pizzeria.meal.domain.pizza.Pizza;
 import pl.pizzeria.meal.domain.pizza.PizzaDto;
 import pl.pizzeria.meal.domain.pizza.Topping;
 import pl.pizzeria.meal.domain.pizza.ToppingDto;
-import pl.pizzeria.meal.web.MealServiceImpl;
 import pl.pizzeria.order.domain.MealRequest;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Service
 public class PizzaPreparer implements MealPreparer {
 
-    private final MealServiceImpl mealService;
+    public static final String INVALID_TOPPING_ID = "Invalid topping id";
 
     @Override
-    public MealDto prepare(Meal meal, MealRequest mealRequest) {
+    public MealDto prepare(Meal meal, MealRequest mealRequest, List<Meal> menu) {
         MealDto mealDto = PizzaMapper.INSTANCE.pizzaToPizzaDto((Pizza) meal);
-        preparePizza(mealDto, mealRequest);
+        preparePizza(mealDto, mealRequest, menu);
         return mealDto;
     }
 
-    private void preparePizza(MealDto mealDto, MealRequest mealRequest) {
+    private void preparePizza(MealDto mealDto, MealRequest mealRequest, List<Meal> menu) {
         if(hasTopping(mealRequest)) {
-            List<Meal> toppings = mealService.findByIdIn(mealRequest.getToppings());
+            List<Meal> toppings = menu.stream()
+                    .filter(item -> mealRequest.getToppings().contains(item.getId()))
+                    .collect(Collectors.toList());
             addToppingsToPizza(mealDto, toppings);
         }
     }
@@ -51,7 +51,7 @@ public class PizzaPreparer implements MealPreparer {
             if(MealType.TOPPING.equals(topping.getMealType())) {
                 toppingDtoList.add(toppingDto);
             } else {
-                throw new IllegalArgumentException("Invalid topping id");
+                throw new IllegalArgumentException(INVALID_TOPPING_ID);
             }
         }
 
