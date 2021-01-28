@@ -22,10 +22,10 @@
                     <li fxLayout="row" fxLayoutAlign="space-between center"
                         style="padding: 8px; border-bottom: 1px solid;">
                         <span>
-                            {{item.meal.name}} - {{item.meal.price}}zł
-                            <span *ngIf="item.meal.allowedBaseIngredient && item.meal?.baseIngredient != undefined">
+                            {{item.meal.name}}
+                            <span *ngIf="item.meal?.baseIngredient != undefined">
                                 ({{item.meal?.baseIngredient?.name}})
-                            </span>
+                            </span> - {{item.meal.price}}zł
                     <li *ngIf="item.meal?.extras != undefined">
                         {{item.meal.extras.name}} - {{item.meal.extras.price}}zł
                     </li>
